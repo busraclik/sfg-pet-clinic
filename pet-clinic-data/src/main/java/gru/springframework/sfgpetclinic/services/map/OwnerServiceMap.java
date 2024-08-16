@@ -4,7 +4,6 @@ import gru.springframework.sfgpetclinic.model.Owner;
 import gru.springframework.sfgpetclinic.services.OwnerService;
 import org.springframework.stereotype.Service;
 
-
 import java.util.Set;
 
 @Service

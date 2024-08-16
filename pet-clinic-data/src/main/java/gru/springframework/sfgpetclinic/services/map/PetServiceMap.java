@@ -1,7 +1,6 @@
 package gru.springframework.sfgpetclinic.services.map;
 
 import gru.springframework.sfgpetclinic.model.Pet;
-import gru.springframework.sfgpetclinic.services.CrudService;
 import gru.springframework.sfgpetclinic.services.PetService;
 import org.springframework.stereotype.Service;
 
