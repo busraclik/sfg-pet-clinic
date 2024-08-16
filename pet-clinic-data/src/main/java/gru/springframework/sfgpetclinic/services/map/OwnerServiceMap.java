@@ -1,11 +1,13 @@
 package gru.springframework.sfgpetclinic.services.map;
 
 import gru.springframework.sfgpetclinic.model.Owner;
-import gru.springframework.sfgpetclinic.services.CrudService;
 import gru.springframework.sfgpetclinic.services.OwnerService;
+import org.springframework.stereotype.Service;
+
 
 import java.util.Set;
 
+@Service
 public class OwnerServiceMap extends AbstractMapService<Owner,Long> implements OwnerService {
     @Override
     public Owner findById(Long id) {
