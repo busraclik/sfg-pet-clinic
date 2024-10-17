@@ -9,8 +9,8 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-//@AllArgsConstructor
 @Builder
+@AllArgsConstructor
 @Entity
 @Table(name = "owners")
 public class Owner extends Person{
