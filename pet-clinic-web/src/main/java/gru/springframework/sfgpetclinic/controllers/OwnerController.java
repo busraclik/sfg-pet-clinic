@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/owners")
 @Controller
 public class OwnerController {
-
     private final OwnerService ownerService;
 
     public OwnerController(OwnerService ownerService) {

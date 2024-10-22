@@ -11,10 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class OwnerServiceMapTest {
     OwnerServiceMap ownerServiceMap;
     final Long ownerId = 1L;
+    final String lastName = "Smith";
     @BeforeEach
     void setUp() {
         ownerServiceMap = new OwnerServiceMap(new PetTypeServiceMap(), new PetServiceMap());
-        ownerServiceMap.save(Owner.builder().id(ownerId).build());
+        ownerServiceMap.save(Owner.builder().id(ownerId).lastName(lastName).build());
     }
 
     @Test
@@ -39,20 +40,34 @@ class OwnerServiceMapTest {
 
     @Test
     void saveNoId() {
-        Owner savedOwner = Owner.builder().build();
+        Owner savedOwner = ownerServiceMap.save(Owner.builder().build());
         assertNotNull(savedOwner);
-        //assertNotNull(savedOwner.getId());
+        assertNotNull(savedOwner.getId());
     }
 
     @Test
     void deleteById() {
+        ownerServiceMap.deleteById(ownerId);
+        assertEquals(0, ownerServiceMap.findAll().size());
     }
 
     @Test
     void delete() {
+        ownerServiceMap.delete(ownerServiceMap.findById(ownerId));
+        assertEquals(0, ownerServiceMap.findAll().size());
     }
 
     @Test
     void findByLastName() {
+        Owner smith = ownerServiceMap.findByLastName(lastName);
+        assertNotNull(smith);
+        assertEquals(ownerId, smith.getId());
+    }
+
+    @Test
+    void findLastNameNotFound() {
+        Owner smith = ownerServiceMap.findByLastName("foo");
+        assertNull(smith);
+
     }
 }
