@@ -31,7 +31,7 @@ public class SpecialitySDJPaService implements SpecialityService {
     public Set<Speciality> findAll() {
         Set<Speciality> specialities = new HashSet<>();
         specialityRepository.findAll().forEach(specialities::add);
-        return null;
+        return specialities;
     }
 
     @Override
