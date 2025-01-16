@@ -29,10 +29,10 @@ public class OwnerController {
     }
 
 
-//    @GetMapping("/{ownerId}")
-//    public String showOwner(@PathVariable String ownerId, Model model){
-//
-//        model.addAttribute("owner",ownerService.findById(Long.parseLong(ownerId)));
-//        return "owners/ownerDetails";
-//    }
+    @GetMapping("/{ownerId}")
+    public String showOwner(@PathVariable String ownerId, Model model){
+
+        model.addAttribute("owner",ownerService.findById(Long.parseLong(ownerId)));
+        return "owners/ownerDetails";
+    }
 }
