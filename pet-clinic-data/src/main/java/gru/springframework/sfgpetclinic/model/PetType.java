@@ -14,6 +14,12 @@ import lombok.experimental.SuperBuilder;
 @Entity
 @Table(name = "types")
 public class PetType extends BaseEntity{
+    //adding builder pattern
+//    @Builder
+//    public PetType(Long id, String name){
+//        super(id);
+//        this.name = name;
+//    }
 
     @Column(name = "name")
     private String name;

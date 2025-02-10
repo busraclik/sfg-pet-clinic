@@ -22,6 +22,7 @@ public class Owner extends Person{
         this.city = city;
         this.telephone = telephone;
         this.pets = pets;
+        //this.pets = (pets != null) ? pets : new HashSet<>();
     }
 
     @Column(name = "address")
@@ -33,6 +34,27 @@ public class Owner extends Person{
 
     //ex: if i delete owner pets delete also
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @Builder.Default
     private Set<Pet> pets = new HashSet<>();
+
+
+    public Pet getPet(String name){
+        return getPet(name, false);
+    }
+
+    public Pet getPet(String name, boolean ingnoreNew){
+       name = name.toLowerCase();
+
+       for (Pet pet : pets){
+           if (!ingnoreNew || !pet.isNew()){
+               String compName = pet.getName();
+               compName = compName.toLowerCase();
+               if (compName.equals(name)){
+                   return pet;
+               }
+           }
+       }
+       return null;
+    }
 
 }
