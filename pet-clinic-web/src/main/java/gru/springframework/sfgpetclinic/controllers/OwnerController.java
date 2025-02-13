@@ -91,11 +91,9 @@ public class OwnerController {
     @PostMapping("/new")
     public String processCreationForm(@Valid Owner owner, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            //bu kısım olmalı mı bilmiyorum
             model.addAttribute("owner", owner);
             return VIEWS_OWNER_CREATE_OR_UPDATE_FORM;
         } else {
-            //bu kısım olmalı mı bilmiyorum
             model.addAttribute("owner", owner);
             Owner savedOwner = ownerService.save(owner);
             return "redirect:/owners/" + savedOwner.getId();
