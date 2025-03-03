@@ -36,8 +36,6 @@ public class PetController {
         return petTypeService.findAll();
     }
 
-    //findOwner
-
     @ModelAttribute("owner")
     public Owner findOwner(@PathVariable("ownerId") Long ownerId){
         return ownerService.findById(ownerId);
@@ -64,11 +62,14 @@ public class PetController {
     @PostMapping("/pets/new")
     public String processCreationForm(Owner owner, @Valid Pet pet, BindingResult result, ModelMap model){
 
+        pet.setOwner(owner); //added this
+
         if (StringUtils.hasLength(pet.getName()) && pet.isNew() && owner.getPet(pet.getName(), true) != null){
             result.rejectValue("name","duplicate", "already exists");
         }
 
         owner.getPets().add(pet);
+
         if (result.hasErrors()){
             model.put("pet", pet);
             return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
@@ -90,17 +91,46 @@ public class PetController {
 
 // processUpdateForm
 
+//    @PostMapping("/pets/{petId}/edit")
+//    public String processUpdateForm(Owner owner, @Valid Pet pet, BindingResult result, Model model){
+//        if (result.hasErrors()){
+//            pet.setOwner(owner);
+//            model.addAttribute("pet", pet);
+//            return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+//        }else {
+//            owner.getPets().add(pet);
+//            petService.save(pet);
+//            return "redirect:/owners/" + owner.getId();
+//        }
+//    }
+
+
     @PostMapping("/pets/{petId}/edit")
-    public String processUpdateForm(Owner owner, @Valid Pet pet, BindingResult result, Model model){
-        if (result.hasErrors()){
+    public String processUpdateForm(@PathVariable Long petId, Owner owner, @Valid Pet pet, BindingResult result, Model model) {
+        if (result.hasErrors()) {
             pet.setOwner(owner);
             model.addAttribute("pet", pet);
             return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
-        }else {
-            owner.getPets().add(pet);
-            petService.save(pet);
+        } else {
+            //  mevcut pet'i veritabanından çek
+            Pet existingPet = petService.findById(petId);
+            if (existingPet == null) {
+                result.rejectValue("id", "not found", "Pet not found");
+                return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
+            }
+
+            // Yeni form verilerini mevcut nesneye kopyalıyoruz
+            existingPet.setName(pet.getName());
+            existingPet.setBirthDate(pet.getBirthDate());
+            existingPet.setPetType(pet.getPetType());
+            existingPet.setVisits(pet.getVisits());
+            existingPet.setOwner(owner);
+
+            petService.save(existingPet); // Güncellenmiş nesneyi kaydet
+
             return "redirect:/owners/" + owner.getId();
         }
     }
+
 
 }

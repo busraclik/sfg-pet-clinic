@@ -5,6 +5,7 @@ import gru.springframework.sfgpetclinic.repositories.PetRepository;
 import gru.springframework.sfgpetclinic.services.PetService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
 import java.util.Set;
